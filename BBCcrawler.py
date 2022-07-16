@@ -22,18 +22,30 @@ results = []
 
 def parseHTML():
     newsItems = soup.select(".gs-u-m0.gs-u-p0.lx-stream__feed.qa-stream > .lx-stream__post-container")
-    
+    counter =0
     for item in newsItems:
+        if counter == 10:
+            break
+        counter = counter+1
         title = item.select_one("span.lx-stream-post__header-text.gs-u-align-middle").text
-        
+        print("_______")
+        #print(title)
+    
         try:
-            
-            image = item.select_one("img.qa-lazyload-image.lazyautosizes.lazyload")["data-src"]
+            #print("tried")
+            #print(item)
+            image = item.select_one(".qa-lazyload-image.lazyload")["data-src"]
             image = image.replace("{width}", "320")
+            #print(image)
         except: 
-            print("2")
-            continue
+            print("")
 
+        try: 
+            image = item.select_one(".qa-srcset-image.lx-stream-related-story--index-image.qa-story-image")["src"]
+        except: 
+            #print("line 43")
+            counter = counter-1
+            continue
        
             
         
@@ -42,7 +54,7 @@ def parseHTML():
         print(title, image)
         results.append(article)
         
-        print("1")
+        #print("1")
     
 parseHTML()
 
